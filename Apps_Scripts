@@ -1,0 +1,144 @@
+var scriptProp = PropertiesService.getScriptProperties()
+
+function initialSetup() {
+    var activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet()
+    scriptProp.setProperty('key', activeSpreadsheet.getId())
+}
+
+function doGet(e) {
+    var action = e.parameter.action;
+
+    if (action === 'getEntries') {
+        return getEntries();
+    }
+
+    return ContentService
+        .createTextOutput(JSON.stringify({ 'result': 'error', 'error': 'Invalid action' }))
+        .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+    var lock = LockService.getScriptLock()
+    lock.tryLock(10000)
+
+    try {
+        var action = e.parameter.action;
+
+        if (action === 'deleteEntry') {
+            return deleteEntry(e.parameter.row);
+        } else {
+            return addEntry(e);
+        }
+    }
+    catch (error) {
+        return ContentService
+            .createTextOutput(JSON.stringify({ 'result': 'error', 'error': error.toString() }))
+            .setMimeType(ContentService.MimeType.JSON)
+    }
+    finally {
+        lock.releaseLock()
+    }
+}
+
+function addEntry(e) {
+    var doc = SpreadsheetApp.openById(scriptProp.getProperty('key'))
+    var sheet = doc.getActiveSheet()
+    var nextRow = sheet.getLastRow() + 1
+
+    var newRow = [
+        e.parameter.name,
+        e.parameter.usn,
+        e.parameter.semester,
+        e.parameter.entryDate,
+        e.parameter.entryTime
+    ]
+
+    sheet.getRange(nextRow, 1, 1, 5).setValues([newRow])
+
+    return ContentService
+        .createTextOutput(JSON.stringify({ 'result': 'success', 'row': nextRow }))
+        .setMimeType(ContentService.MimeType.JSON)
+}
+
+function getEntries() {
+    try {
+        var doc = SpreadsheetApp.openById(scriptProp.getProperty('key'))
+        var sheet = doc.getActiveSheet()
+        var lastRow = sheet.getLastRow()
+
+        if (lastRow <= 1) {
+            return ContentService
+                .createTextOutput(JSON.stringify({ 'result': 'success', 'entries': [] }))
+                .setMimeType(ContentService.MimeType.JSON);
+        }
+
+        var range = sheet.getRange(2, 1, lastRow - 1, 5);
+        var values = range.getValues();
+
+        var entries = [];
+        for (var i = 0; i < values.length; i++) {
+            var row = values[i];
+            if (row[0] && row[1]) {
+                entries.push({
+                    row: i + 2,
+                    name: row[0] || '',
+                    usn: row[1] || '',
+                    semester: row[2] || '',
+                    entryDate: row[3] || '',
+                    entryTime: formatTime(row[4])
+                });
+            }
+        }
+
+        return ContentService
+            .createTextOutput(JSON.stringify({ 'result': 'success', 'entries': entries }))
+            .setMimeType(ContentService.MimeType.JSON);
+
+    } catch (error) {
+        return ContentService
+            .createTextOutput(JSON.stringify({ 'result': 'error', 'error': error.toString() }))
+            .setMimeType(ContentService.MimeType.JSON);
+    }
+}
+
+function deleteEntry(rowNumber) {
+    try {
+        var doc = SpreadsheetApp.openById(scriptProp.getProperty('key'))
+        var sheet = doc.getActiveSheet()
+        var row = parseInt(rowNumber);
+
+        sheet.deleteRow(row);
+
+        return ContentService
+            .createTextOutput(JSON.stringify({ 'result': 'success' }))
+            .setMimeType(ContentService.MimeType.JSON);
+
+    } catch (error) {
+        return ContentService
+            .createTextOutput(JSON.stringify({ 'result': 'error', 'error': error.toString() }))
+            .setMimeType(ContentService.MimeType.JSON);
+    }
+}
+
+function formatTime(timeValue) {
+    if (!timeValue) return '';
+
+    try {
+        // Force convert to Date object
+        var date = new Date(timeValue);
+
+        // Check if it's a valid date
+        if (isNaN(date.getTime())) {
+            return timeValue.toString();
+        }
+
+        // Extract hours and minutes
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+
+        // Format as HH:MM
+        return (hours < 10 ? '0' : '') + hours + ':' + (minutes < 10 ? '0' : '') + minutes;
+    } catch (error) {
+        return timeValue.toString();
+    }
+}

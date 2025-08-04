@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab Entry System</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://media.licdn.com/dms/image/v2/C560BAQF_1rdgxeTTGw/company-logo_200_200/company-logo_200_200/0/1636956496498?e=1756944000&v=beta&t=T8eOpiwUh1q6BJnp6sIcgdmd4anhh4IHQB-pp3XgCJI"
+                    alt="MITK Logo" class="logo-img">
+                <span>Lab Entry System</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="https://www.mitkundapura.com/" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link active">Lab Entry</a>
+                <a href="https://www.mitkundapura.com/index.php/contact-us/" class="nav-link">Contact Us</a>
+                <a href="admin_panel.html" class="nav-link">Administrator</a>
+                <a href="student_entries.html" class="nav-link">Student Entries</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="main-card">
+            <!-- Form Section -->
+            <div class="form-section">
+                <h1 class="form-title">LAB ENTRY SYSTEM</h1>
+
+                <form id="labEntryForm">
+                    <div class="form-group">
+                        <label for="name">Enter your name</label>
+                        <input type="text" id="name" name="name" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="usn">Enter your USN</label>
+                        <input type="text" id="usn" name="usn" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="semester">Select your semester</label>
+                        <select id="semester" name="semester" required>
+                            <option value="">Select Semester</option>
+                            <option value="Sem 1">Sem 1</option>
+                            <option value="Sem 2">Sem 2</option>
+                            <option value="Sem 3">Sem 3</option>
+                            <option value="Sem 4">Sem 4</option>
+                            <option value="Sem 5">Sem 5</option>
+                            <option value="Sem 6">Sem 6</option>
+                            <option value="Sem 7">Sem 7</option>
+                            <option value="Sem 8">Sem 8</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="entryDate">Entry Date</label>
+                        <input type="date" id="entryDate" name="entryDate" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="entryTime">Entry Time</label>
+                        <input type="time" id="entryTime" name="entryTime" required />
+                    </div>
+
+                    <button type="submit" class="submit-btn">Entry Now!</button>
+                </form>
+
+                <div id="message" class="message"></div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="info-section">
+                <h2 class="info-title">LAB-201-MITK</h2>
+                <p class="info-subtitle">
+                    Moodlakatte Institute of Technology, Kundapura
+                </p>
+
+                <div class="info-box">
+                    <h3>Lab Entry System</h3>
+                    <p>
+                        Welcome to the digital lab entry system. Please fill out the form
+                        to record your lab entry.
+                    </p>
+                    <div class="lab-hours">
+                        <strong>Lab Hours:</strong> 9:00 AM – 5:00 PM
+                    </div>
+                    <div class="today-info">
+                        <span id="todayDate"></span>
+                        <button id="todayBtn" class="today-btn">Today</button>
+                    </div>
+                </div>
+
+                <div class="recent-entries">
+                    <h3>Recent Entries</h3>
+                    <p class="placeholder-text">Recent entries will appear here...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

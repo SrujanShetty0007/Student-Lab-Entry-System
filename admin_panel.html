@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Lab Entry System</title>
+    <link rel="stylesheet" href="/assets/admin_panel.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://media.licdn.com/dms/image/v2/C560BAQF_1rdgxeTTGw/company-logo_200_200/company-logo_200_200/0/1636956496498?e=1756944000&v=beta&t=T8eOpiwUh1q6BJnp6sIcgdmd4anhh4IHQB-pp3XgCJI"
+                    alt="MITK Logo" class="logo-img">
+                <span>Lab Entry System</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="https://www.mitkundapura.com/" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link">Lab Entry</a>
+                <a href="https://www.mitkundapura.com/index.php/contact-us/" class="nav-link">Contact Us</a>
+                <a href="admin_panel.html" class="nav-link active">Administrator</a>
+                <a href="student_entries.html" class="nav-link">Student Entries</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="admin-panel">
+            <div class="admin-header">
+                <h1>Administrator Panel</h1>
+                <p>Manage lab entries and system settings. <span>Accomplish more with our user-friendly
+                        interface.</span></p>
+            </div>
+
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3>Total Entries Today</h3>
+                    <div class="stat-number">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Entries</h3>
+                    <div class="stat-number">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>System Status</h3>
+                    <div class="stat-status">Online</div>
+                </div>
+            </div>
+
+            <div class="admin-actions">
+                <a href="student_entries.html" class="admin-btn">View All Entries</a>
+                <!-- <a href="#" class="admin-btn">Export Data</a>
+                <a href="#" class="admin-btn">Clear All Data</a> -->
+            </div>
+
+            <div class="admin-message" id="adminPanelMessage"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p class="footer-copyright">&copy; 2025 MIT Kundapura. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Simple admin panel functionality
+        document.addEventListener("DOMContentLoaded", function () {
+            // Navbar toggle
+            const navToggle = document.getElementById("nav-toggle");
+            const navMenu = document.getElementById("nav-menu");
+
+            navToggle.addEventListener("click", function () {
+                navMenu.classList.toggle("active");
+                navToggle.classList.toggle("active");
+            });
+
+            // Close menu when clicking on nav links
+            document.querySelectorAll(".nav-link").forEach(link => {
+                link.addEventListener("click", function () {
+                    navMenu.classList.remove("active");
+                    navToggle.classList.remove("active");
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
