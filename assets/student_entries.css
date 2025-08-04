@@ -782,7 +782,7 @@ body {
     .nav-menu {
         position: fixed;
         top: 70px;
-        left: -100%;
+        right: -100%;
         width: 100%;
         height: calc(100vh - 70px);
         background: white;
@@ -790,12 +790,12 @@ body {
         justify-content: flex-start;
         align-items: center;
         padding-top: 50px;
-        transition: left 0.3s ease;
+        transition: right 0.3s ease;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     .nav-menu.active {
-        left: 0;
+        right: 0;
     }
 
     .nav-link {
@@ -901,6 +901,12 @@ body {
 
     .nav-logo span {
         font-size: 1.3rem;
+    }
+
+    .nav-menu {
+        width: 80vw;
+        min-width: 220px;
+        max-width: 320px;
     }
 
     .entries-panel {
